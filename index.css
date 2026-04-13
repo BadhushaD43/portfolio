@@ -375,6 +375,17 @@ span{
     cursor: pointer;
 }
 
+.contact-result{
+    min-height: 2.4rem;
+    margin-top: 1.5rem;
+    font-size: 1.6rem;
+    color: var(--main-color);
+}
+
+.contact-result.error{
+    color: #ff6b6b;
+}
+
 .footer{
     display: flex;
     justify-content: space-between;

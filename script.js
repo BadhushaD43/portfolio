@@ -41,29 +41,50 @@ header.classList.toggle('sticky',window.scrollY>100);
 
 };
 
-// Contact web
 const contactForm = document.querySelector('#contact-form');
+const contactEmail = document.querySelector('#contact-email');
+const contactSubject = document.querySelector('#contact-subject');
+const contactResult = document.querySelector('#contact-result');
 
-if (contactForm) {
-    contactForm.addEventListener('submit', (event) => {
+if (contactForm && contactEmail && contactSubject && contactResult) {
+    contactForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const name = document.querySelector('#contact-name').value.trim();
-        const email = document.querySelector('#contact-email').value.trim();
-        const phone = document.querySelector('#contact-phone').value.trim();
-        const subject = document.querySelector('#contact-subject').value.trim() || 'Portfolio contact message';
-        const message = document.querySelector('#contact-message').value.trim();
+        const accessKey = contactForm.querySelector('input[name="access_key"]');
 
-        const body = [
-            `Name: ${name}`,
-            `Email: ${email}`,
-            `Mobile: ${phone}`,
-            '',
-            'Message:',
-            message
-        ].join('\n');
+        if (!accessKey.value || accessKey.value === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+            contactResult.textContent = 'Please add your Web3Forms access key first.';
+            contactResult.classList.add('error');
+            return;
+        }
 
-        window.location.href = `mailto:badhushad0@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        contactForm.reset();
+        if (!contactSubject.value.trim()) {
+            contactSubject.value = 'New portfolio contact message';
+        }
+
+        contactResult.textContent = 'Sending message...';
+        contactResult.classList.remove('error');
+
+        try {
+            const response = await fetch(contactForm.action, {
+                method: contactForm.method,
+                body: new FormData(contactForm),
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                contactResult.textContent = 'Message sent successfully.';
+                contactForm.reset();
+            } else {
+                contactResult.textContent = 'Message not sent. Please try again.';
+                contactResult.classList.add('error');
+            }
+        } catch (error) {
+            contactResult.textContent = 'Message not sent. Please check your connection.';
+            contactResult.classList.add('error');
+        }
     });
 }
