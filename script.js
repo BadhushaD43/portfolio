@@ -23,7 +23,7 @@ window.onscroll = () =>{
         if (top>= offset && top < offset + height){
             navLinks.forEach(links =>{
                 links.classList.remove('active');
-                document.querySelector('header nav a[herf*=' + id +']').classList.add('active');
+                document.querySelector('header nav a[href*=' + id +']').classList.add('active');
             });
         };
     });
@@ -41,3 +41,29 @@ header.classList.toggle('sticky',window.scrollY>100);
 
 };
 
+// Contact web
+const contactForm = document.querySelector('#contact-form');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const name = document.querySelector('#contact-name').value.trim();
+        const email = document.querySelector('#contact-email').value.trim();
+        const phone = document.querySelector('#contact-phone').value.trim();
+        const subject = document.querySelector('#contact-subject').value.trim() || 'Portfolio contact message';
+        const message = document.querySelector('#contact-message').value.trim();
+
+        const body = [
+            `Name: ${name}`,
+            `Email: ${email}`,
+            `Mobile: ${phone}`,
+            '',
+            'Message:',
+            message
+        ].join('\n');
+
+        window.location.href = `mailto:badhushad0@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        contactForm.reset();
+    });
+}
