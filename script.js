@@ -52,7 +52,7 @@ if (contactForm && contactEmail && contactSubject && contactResult) {
 
         const accessKey = contactForm.querySelector('input[name="access_key"]');
 
-        if (!accessKey.value || accessKey.value === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+        if (!accessKey.value || accessKey.value === '128fbcea-ef16-4ecf-8e80-4d97983500cb') {
             contactResult.textContent = 'Please add your Web3Forms access key first.';
             contactResult.classList.add('error');
             return;
